@@ -1,0 +1,134 @@
+<html>
+
+<head>
+
+<style>
+
+h1{text-align:center;}
+li{list-style:none; padding-left:5px; }
+#covr{width:500px; margin:60px auto; overflow:hidden; border:1px #555 dashed; min-height:200px; padding:15px;}
+
+
+
+
+</style>
+
+<script>
+
+function mn() {
+	
+	var a;
+	
+	if(window.XMLHttpRequest) {
+	a = new XMLHttpRequest();	
+	}
+	
+	else{
+	a =  new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+a.onreadystatechange= function (){//checking state nd status
+	if(a.readyState == 4 && a.status ==200){
+	
+	var	ajn = JSON.parse(a.responseText); 
+		 	
+	var m = ajn.mvy;
+	
+	var ot="<form>";
+	
+	
+	ot += '<select id = "ms" onchange= "pick()">';
+		for (var k =0;k<m.length;k++){
+			ot +='<option value="'+k+'">'+m[k].title+'</option>';	
+		}
+	
+	ot+='</select>';
+	ot+='</form>';
+	
+	document.getElementById('mt').innerHTML=ot
+		
+	}
+}
+
+a.open("GET","mvy.json", true);
+a.send();
+
+}
+
+
+//call  a ms() function, to grab selectd movie option 
+
+function pick(){
+	
+	var bx = document.getElementById('ms');
+	var pk  = bx.options[bx.selectedIndex].value;
+	
+	mfo(pk);
+	
+}
+
+//function  to gt movie info = yr , genre, director
+
+function mfo(k) {
+	
+	var a;
+	
+	if(window.XMLHttpRequest) {
+	a = new XMLHttpRequest();	
+	}
+	
+	else{
+	a =  new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+a.onreadystatechange= function (){//checking state nd status
+	if(a.readyState == 4 && a.status ==200){
+	
+	var	ajn = JSON.parse(a.responseText); 
+		 	
+	var m = ajn.mvy;
+	
+	var ot='';
+	
+	ot+='<li>year: '+m[k].year+'</li>';
+	ot+='<li>genre: '+m[k].genre+'</li>';
+	ot+='<li>director: '+m[k].director+'</li>';
+	
+	document.getElementById('mi').innerHTML=ot;
+	
+	
+}
+
+}
+
+a.open("GET","mvy.json", true);
+a.send();
+
+
+}
+
+
+
+</script>
+</head>
+
+
+<body onload='mn()'>
+
+<div id="covr">
+
+<h1>movies bro</h1>
+
+<div id="mt"></div>
+
+<br />
+
+<div id="mi"></div>
+
+</div>
+
+
+
+
+
+</body>
